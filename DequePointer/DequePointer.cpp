@@ -161,7 +161,6 @@ int main()
 		}
 		else if (command == 6 and node.LeElem->item) {
 			DeleteLeftNode(&node);
-			continue;
 		}
 		else if (command == 5 and node.LeElem->item)
 			DeleteRightNode(&node);

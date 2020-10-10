@@ -1,2 +1,0 @@
-C:\Users\deagl\source\repos\HeapWithDequePointer\DequePointer\x64\Debug\DequePointer.exe
-C:\Users\deagl\source\repos\HeapWithDequePointer\DequePointer\x64\Debug\DequePointer.pdb

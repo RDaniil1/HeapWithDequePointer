@@ -53,7 +53,6 @@ void GetIndexValue(Deque* el, int nodeIndex, int& findedValue)
 }
 void SwapNodes(Deque* el, int node1, int node2)
 {
-	//This function is swap nodes by their index  
 	if ((node1 <= el->AllSize && node2 <= el->AllSize) && node1 > node2) {
 		int memory1 = 0, memory2 = 0;
 		int currentSize = el->AllSize;

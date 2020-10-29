@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{ac652083-db37-4826-9262-74d51f7207d7}</ProjectGuid>
+    <ProjectGuid>{f4fe8e17-dd91-4bf3-b4dd-c9fdda32127e}</ProjectGuid>
     <RootNamespace>HeapDeque</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>

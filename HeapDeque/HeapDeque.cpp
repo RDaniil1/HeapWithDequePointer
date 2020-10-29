@@ -12,30 +12,29 @@ struct Deque
 {
 	int AllSize = 0;
 	Item* LeElem = NULL;
-	Item* RiElem = NULL;
+	Item* RiElem = NULL; 
 };
-void GetIndexValue(Deque* el, int nodeIndex, int &findedValue)
+void GetIndexValue(Deque* el, int nodeIndex, int& findedValue)
 {
 	if (nodeIndex != 1 and nodeIndex <= el->AllSize)
 	{
 		Item* findValue = el->LeElem;
 		Deque forValue;
 		Item* forValueFinder;
-		forValue.LeElem = NULL;
-		forValue.LeElem = new Item;
-		forValue.LeElem->next = nullptr;
-		forValue.LeElem->prev = nullptr;
-		forValue.RiElem = forValue.LeElem;
-		forValueFinder = forValue.LeElem;
+		forValue.RiElem = new Item;
+		forValue.RiElem->next = nullptr;
+		forValue.RiElem->prev = nullptr;
+		forValue.LeElem = forValue.RiElem;
+		forValueFinder = forValue.RiElem;
 		for (int i = 1; i < nodeIndex; i++)
 		{
 			if (i != 1) {
-				forValue.LeElem = new Item;
-				forValue.LeElem->prev = forValueFinder;
-				forValueFinder->next = forValue.LeElem;
-				forValue.LeElem->next = nullptr;
+				forValue.RiElem = new Item;
+				forValue.RiElem->prev = forValueFinder;
+				forValueFinder->next = forValue.RiElem;
+				forValue.RiElem->next = nullptr;
 			}
-			forValue.LeElem->item = el->LeElem->item;
+			forValue.RiElem->item = el->LeElem->item;
 			findValue = el->LeElem->next;
 			delete el->LeElem;
 			el->LeElem = findValue;
@@ -43,17 +42,18 @@ void GetIndexValue(Deque* el, int nodeIndex, int &findedValue)
 			if (i != 1)
 				forValueFinder = forValueFinder->next;
 		}
-		forValue.LeElem->next = el->LeElem;
-		el->LeElem->prev = forValue.LeElem;
+		forValue.RiElem->next = el->LeElem;
+		el->LeElem->prev = forValue.RiElem;
 		findedValue = el->LeElem->item;
 		while (el->LeElem->prev != nullptr)
 			el->LeElem = el->LeElem->prev;
 	}
-	else if (nodeIndex == 1 and nodeIndex <= el->AllSize) 
+	else if (nodeIndex == 1 and nodeIndex <= el->AllSize)
 		findedValue = el->LeElem->item;
 }
 void SwapNodes(Deque* el, int node1, int node2)
 {
+	//This function is swap nodes by their index  
 	if ((node1 <= el->AllSize && node2 <= el->AllSize) && node1 > node2) {
 		int memory1 = 0, memory2 = 0;
 		int currentSize = el->AllSize;
@@ -186,7 +186,7 @@ void SwapNodes(Deque* el, int node1, int node2)
 					helpSecDeq.RiElem->next = nullptr;
 					helpSecDeq.RiElem->prev = helpSwapSec;
 					helpSwapSec->next = helpSecDeq.RiElem;
-					helpSwapSec = helpSecDeq.RiElem;      
+					helpSwapSec = helpSecDeq.RiElem;
 					helpSecDeq.RiElem->item = el->LeElem->item;
 				}
 				helpSwap = el->LeElem;
@@ -336,7 +336,7 @@ void SwapNodes(Deque* el, int node1, int node2)
 					helpSecDeq.RiElem->next = nullptr;
 					helpSecDeq.RiElem->prev = helpSwapSec;
 					helpSwapSec->next = helpSecDeq.RiElem;
-					helpSwapSec = helpSecDeq.RiElem;      
+					helpSwapSec = helpSecDeq.RiElem;
 					helpSecDeq.RiElem->item = el->LeElem->item;
 				}
 				helpSwap = el->LeElem;
@@ -357,21 +357,21 @@ void SwapNodes(Deque* el, int node1, int node2)
 	else if (node1 > el->AllSize || node2 > el->AllSize)
 		cout << "There are only " << el->AllSize << " elements" << endl;
 }
-void HeapifyDeque(Deque* el, int &n, int &i)
+void HeapifyDeque(Deque* el, int& n, int& i)
 {
 	int largest = i;
 	int largEl = 0, leftEl = 0, rightEl = 0;
-	int l = 2 * i ;
-	int r = 2 * i + 1;
+	int leftBr = 2 * i; 
+	int rightBr = 2 * i + 1;
 	GetIndexValue(el, i, largEl);
-	GetIndexValue(el, l, leftEl);
-	GetIndexValue(el, r, rightEl);
-	if (l <= n && leftEl > largEl) {
-		largest = l;
+	GetIndexValue(el, leftBr, leftEl);
+	GetIndexValue(el, rightBr, rightEl);
+	if (leftBr <= n && leftEl > largEl) {
+		largest = leftBr;
 		GetIndexValue(el, largest, largEl);
 	}
-	if (r <= n && rightEl > largEl) {
-		largest = r;
+	if (rightBr <= n && rightEl > largEl) {
+		largest = rightBr;
 		GetIndexValue(el, largest, largEl);
 	}
 	if (largest != i)
@@ -382,13 +382,11 @@ void HeapifyDeque(Deque* el, int &n, int &i)
 }
 void HeapSort(Deque* el)
 {
-	int n = el->AllSize;
-	int one = 1;
-	for (int i = n / 2; i >= 1; i--)
-		HeapifyDeque(el, n, i);
-	for (int i = n; i >= 1; i--)
+	int one = 1; 
+	for (int i = el->AllSize/ 2; i >= 1; i--)
+		HeapifyDeque(el, el->AllSize, i);
+	for (int i = el->AllSize; i >= 1; i--)
 	{
-		
 		HeapifyDeque(el, i, one);
 		SwapNodes(el, one, i);
 	}
@@ -449,7 +447,7 @@ void CreateLeftNode(Deque* el)
 		el->LeElem->prev = nullptr;
 		el->LeElem->item = num;
 		cout << "Left node created" << endl;
-		el->AllSize++;	
+		el->AllSize++;
 	}
 	else if (IsEmpty != false) {
 		el->LeElem = new Item;
@@ -468,16 +466,47 @@ void DequeSize(Deque* el)
 }
 void ShowAllNodes(Deque* el)
 {
-	Item* helpWatch = el->LeElem;
-	int index = 1;
-	cout << endl << "Deque will be shown from left side" << endl;
-	while (helpWatch->next != nullptr) {
-		cout << index << " element is: " << helpWatch->item << endl;
-		helpWatch = helpWatch->next;
-		index++;
+	if (el->AllSize != 1) {
+		Item* secDeqWatch;
+		Deque secDeq; 
+		secDeq.RiElem = new Item;
+		secDeq.RiElem->next = nullptr;
+		secDeq.RiElem->prev = nullptr;
+		secDeq.AllSize = el->AllSize;
+		Item* deqWatch = el->LeElem; 
+		secDeqWatch = secDeq.RiElem;
+		secDeq.LeElem = secDeq.RiElem;
+		int index = 1;
+		cout << endl << "Deque will be shown from left side" << endl;
+		while (index != el->AllSize) {
+			deqWatch = el->LeElem->next;
+		cout << index << " element is: " << el->LeElem->item << endl;
+			if (index != 1)
+			{
+				secDeq.RiElem = new Item;
+				secDeq.RiElem->prev = secDeqWatch;
+				secDeqWatch->next = secDeq.RiElem;
+				secDeq.RiElem->next = nullptr;
+				secDeqWatch = secDeqWatch->next;
+			}
+			secDeq.RiElem->item = el->LeElem->item;
+
+			delete el->LeElem;
+			el->LeElem = deqWatch;
+			deqWatch->prev = nullptr;
+
+			index++;
+		}
+		cout << index << " element is: " << el->LeElem->item << endl << endl;
+
+		secDeqWatch->next = el->LeElem;
+		el->LeElem->prev = secDeq.RiElem;
+		while (el->LeElem->prev != nullptr)
+			el->LeElem = el->LeElem->prev;
 	}
-	cout << index << " element is: " << helpWatch->item << endl << endl;
-	helpWatch = el->LeElem;
+	else if (el->AllSize == 1)
+		cout << "1 element is: " << el->LeElem->item << endl << endl;
+	
 }
 void DeleteRightNode(Deque* el)
 {
@@ -492,7 +521,7 @@ void DeleteRightNode(Deque* el)
 		el->AllSize--;
 	}
 	else if (el->RiElem->prev == nullptr) {
-		delete el->RiElem; 
+		delete el->RiElem;
 		IsEmpty = true;
 		el->LeElem = el->RiElem;
 		el->AllSize--;
@@ -544,7 +573,7 @@ int main()
 	CommandList();
 	while (1)
 	{
-		cout << endl << "Type command for deque: " << endl;
+		cout << endl << "Type command for deque: " ;
 		cin >> command;
 		if (command >= 1 && command < 4)
 			switch (command) {
@@ -558,26 +587,26 @@ int main()
 				DequeSize(&node);
 				break;
 			}
+		else if (command == 12 and IsEmpty == true)
+			break;
+		else if (command == 12 and IsEmpty != true) {
+			DeleteAll(&node);
+			break;
+		}
+		else if (command == 10 and IsEmpty != true) {
+			int index, findedValue1;
+			cout << "Type node index: ";
+			cin >> index;
+			GetIndexValue(&node, index, findedValue1);
+			cout << "Finded value is: " << findedValue1 << endl;
+		}
+		else if (command == 9 and IsEmpty != true)
+			HeapSort(&node);
 		else if (command == 8 and IsEmpty != true)
 		{
 			cout << "Type nodes to swap: ";
 			cin >> node1 >> node2;
 			SwapNodes(&node, node1, node2);
-		}
-		else if (command == 9 and IsEmpty != true)
-			HeapSort(&node);
-		else if (command == 10 and IsEmpty != true) {
-			int index, findedValue1;
-			cout << "Type node index: " ;
-			cin >> index;
-			GetIndexValue(&node, index, findedValue1);
-			cout << "Finded value is: " << findedValue1 << endl;
-		}
-		else if (command == 11 and IsEmpty == true)
-			break;
-		else if (command == 11 and IsEmpty != true) {
-			DeleteAll(&node);
-			break;
 		}
 		else if (command == 7 and IsEmpty != true)
 			DeleteAll(&node);

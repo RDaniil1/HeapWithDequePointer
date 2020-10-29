@@ -587,9 +587,9 @@ int main()
 				DequeSize(&node);
 				break;
 			}
-		else if (command == 12 and IsEmpty == true)
+		else if (command == 11 and IsEmpty == true)
 			break;
-		else if (command == 12 and IsEmpty != true) {
+		else if (command == 11 and IsEmpty != true) {
 			DeleteAll(&node);
 			break;
 		}

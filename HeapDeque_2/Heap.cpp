@@ -338,7 +338,7 @@ void SwapNodes(Deque* el, int node1, int node2)
 					helpSecDeq.RiElem->item = el->LeElem->item;
 					helpSecDeq.LeElem = helpSecDeq.RiElem;
 					N_op += 18; //18
-				} 
+				}
 				else if (helpSecDeq.AllSize != 0)
 				{
 					helpSecDeq.RiElem->next = nullptr;
@@ -412,8 +412,7 @@ void SwapNodes(Deque* el, int node1, int node2)
 		N_op += 6; //6
 	}
 }
-//9 * 2 + 5(23 + 33n) + 4 * 2 + 6 + 7 + 48 + 131n + log(n) = 1202 + 296n + log(n)
-//1 + 3 + 3 + 5 + 1 + 5 + 1 + 1 + 7 + 3 + log(n) = 30 + log(n) - without deque
+//9 * 2 + 5(23 + 33n) + 4 * 2 + 6 + 7 + 48 + 131n + log(n) = (202 + 296n) * log(n)
 void HeapifyDeque(Deque* el, int& n, int& i)
 {
 	int largest = i;
@@ -439,23 +438,23 @@ void HeapifyDeque(Deque* el, int& n, int& i)
 	if (largest != i)
 	{
 		SwapNodes(el, i, largest); //48 + 131n
-		HeapifyDeque(el, n, largest); //log(n)
+		HeapifyDeque(el, n, largest); 
 		N_op += 7; //7
 	}
 }
-//4 + n/2(6 + 1202 + 296n + log(n)) + 2 + n(1202 + 296n + log(n) + 48 + 131n + 8) = 6 + (3724n + 1150n^2 + 3n^2 * log(n))/2
+//4 + n/2(6 + (202 + 296n) * log(n)) + 2 + n((202 + 296n) * log(n) + 48 + 131n + 8) = 444n^2 * log(n) + 131n^2 + 303n * log(n) + 59n + 6
 void HeapSort(Deque* el)
 {
 	int one = 1;
 	N_op += 4;
 	for (int i = el->AllSize / 2; i >= 1; i--) {
-		HeapifyDeque(el, el->AllSize, i); //1202 + 296n + log(n)
+		HeapifyDeque(el, el->AllSize, i); //(202 + 296n) * log(n)
 		N_op += 6;
 	}
 	N_op += 2;
 	for (int i = el->AllSize; i >= 1; i--)
 	{
-		HeapifyDeque(el, i, one); //1202 + 296n + log(n)
+		HeapifyDeque(el, i, one); //(202 + 296n) * log(n)
 		SwapNodes(el, one, i); //48 + 131n
 		N_op += 8;
 	}
@@ -557,7 +556,7 @@ void DeleteAll(Deque* el)
 	el->AllSize--;
 	N_op += 5;
 }
-//3 + n(24 + 1) + 24 + 34n + 1 + 6 + (3724n + 1150n^2 + 3n^2 * log(n))/2 + 1 + 24 + 34n + 1 + 40n - 14 + 1 + 1  = 48 + (3990n + 1150n^2 + 3n^2 * log(n))/2
+//3 + n(24 + 1) + 24 + 34n + 1 + 444n^2 * log(n) + 131n^2 + 303n * log(n) + 59n + 6 + 1 + 24 + 34n + 1 + 40n - 14 + 1 + 1  = 444n^2 * log(n) + 131n^2 + 303n * log(n) + 192n + 48
 int main()
 {
 	srand(time(NULL));
@@ -574,7 +573,7 @@ int main()
 	cout << "Current deque: " << endl;
 	ShowAllNodes(&node); //24 + 34n + 1
 	auto start = chrono::system_clock::now();
-	HeapSort(&node); //6 + (624n + 1185n^2 + 3n^2 * log(n))/2
+	HeapSort(&node); //444n^2 * log(n) + 131n^2 + 303n * log(n) + 59n + 6
 	auto end = chrono::system_clock::now();
 	cout << "Sorted deque: " << endl;
 	ShowAllNodes(&node); // 24 + 34n + 1
